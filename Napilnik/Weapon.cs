@@ -25,8 +25,8 @@ namespace Napilnik
 
         public void Fire(Player player)
         {
-            if (_bullets <= 0)
-                throw new ArgumentOutOfRangeException(nameof(_bullets));
+            if (CanFire() == false)
+                throw new InvalidOperationException();
 
             player.Damage(_damage);
             _bullets--;

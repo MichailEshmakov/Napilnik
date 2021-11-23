@@ -43,11 +43,31 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Builder.cs" />
+    <Compile Include="Expander.cs" />
+    <Compile Include="Expanders\LinkHashExpanders\LinkHashOrderAmountExpander.cs" />
+    <Compile Include="Expanders\LinkHashExpanders\LinkHashOrderIdExpander.cs" />
+    <Compile Include="Expanders\LinkHashExpanders\LinkHashSecretKeyExpander.cs" />
+    <Compile Include="Expanders\LinkParamsExpanders\LinkParamsOrderAmountAndCurrencyExpander.cs" />
+    <Compile Include="Expanders\LinkParamsExpanders\LinkParamsOrderAmountExpander.cs" />
+    <Compile Include="Expanders\LinkParamsExpanders\LinkParamsOrderCurrencyExpander.cs" />
+    <Compile Include="IHasher.cs" />
+    <Compile Include="IPaymentSystem.cs" />
+    <Compile Include="Builders\LinkHashBuilder.cs" />
+    <Compile Include="Expanders\LinkHashExpander.cs" />
+    <Compile Include="Builders\LinkParamsBuilder.cs" />
+    <Compile Include="Expanders\LinkParamsExpander.cs" />
+    <Compile Include="Hashers\MD5Hasher.cs" />
+    <Compile Include="Order.cs" />
+    <Compile Include="PaymentLink.cs" />
+    <Compile Include="PaymentSystem.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Hashers\Sha1Hasher.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

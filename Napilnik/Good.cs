@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Napilnik
 {
-    class Good
+    public class Good
     {
         private readonly string _name;
 
@@ -14,5 +14,7 @@ namespace Napilnik
         {
             _name = name;
         }
+
+        public string Name => _name;
     }
 }

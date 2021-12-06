@@ -20,15 +20,34 @@ namespace Napilnik
             warehouse.Delive(iPhone12, 10);
             warehouse.Delive(iPhone11, 1);
 
-            warehouse.Output();//Вывод всех товаров на складе с их остатком
+            // Вывод всех товаров на складе с их остатком.
+            IReadOnlyList<IReadonlyCell> warehouseGoods = warehouse.GetGoods();
+            Console.WriteLine("Товары на складе:");
+            Output.ShowGoods(warehouseGoods);
 
             Cart cart = shop.Cart();
             cart.Add(iPhone12, 4);
-            //cart.Add(iPhone11, 3); //при такой ситуации возникает ошибка так, как нет нужного количества товара на складе
+            //cart.Add(iPhone11, 3); // При такой ситуации возникает ошибка так, как нет нужного количества товара на складе.
 
-            cart.Output();//Вывод всех товаров в корзине
+            // Вывод всех товаров в корзине.
+            IReadOnlyList<IReadonlyCell> cardGoods = cart.GetGoods();
+            Console.WriteLine("Товары в корзине:");
+            Output.ShowGoods(cardGoods);
 
             Console.WriteLine(cart.Order().Paylink);
+
+            Console.ReadLine();
+        }
+    }
+
+    public static class Output
+    {
+        public static void ShowGoods(IReadOnlyList<IReadonlyCell> cells)
+        {
+            foreach (IReadonlyCell cell in cells)
+            {
+                Console.WriteLine($"{cell.Good.Name}: {cell.Count}");
+            }
         }
     }
 }

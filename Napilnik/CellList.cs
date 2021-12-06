@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Napilnik
 {
-    class CellList
+    public class CellList
     {
         private readonly List<Cell> _cells;
 

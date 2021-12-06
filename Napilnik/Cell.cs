@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Napilnik
 {
-    class Cell: IReadonlyCell
+    public class Cell: IReadonlyCell
     {
         private readonly Good _good;
 
@@ -43,7 +43,7 @@ namespace Napilnik
         }
     }
 
-    interface IReadonlyCell
+    public interface IReadonlyCell
     {
         int Count { get; }
         Good Good { get; }

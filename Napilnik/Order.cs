@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Napilnik
 {
-    class Order
+    public class Order
     {
         private readonly CellList _cells;
 

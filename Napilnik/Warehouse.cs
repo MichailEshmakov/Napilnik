@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Napilnik
 {
-    class Warehouse
+    public class Warehouse
     {
         private readonly CellList _cells;
 
@@ -36,12 +36,9 @@ namespace Napilnik
             _cells.Add(retugningGoods);
         }
 
-        public void Output()
+        public IReadOnlyList<IReadonlyCell> GetGoods()
         {
-            IReadOnlyList<IReadonlyCell> outputableCells = _cells.GetAll();
-            // Выводит по-складски
+            return _cells.GetAll();
         }
-
-
     }
 }

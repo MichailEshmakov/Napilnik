@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Napilnik
 {
-    class Cart
+    public class Cart
     {
         private readonly Shop _shop;
         private readonly CellList _cells;
@@ -37,12 +37,9 @@ namespace Napilnik
             return new Order(_cells);
         }
 
-
-
-        public void Output()
+        public IReadOnlyList<IReadonlyCell> GetGoods()
         {
-            IReadOnlyList<IReadonlyCell> outputableCells = _cells.GetAll();
-            // Выводит по-корзиночи
+             return _cells.GetAll();
         }
     }
 }

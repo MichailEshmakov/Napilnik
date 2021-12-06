@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Napilnik
 {
-    class Shop
+    public class Shop
     {
         private readonly Warehouse _warehouse;
 

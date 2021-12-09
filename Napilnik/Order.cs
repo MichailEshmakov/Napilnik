@@ -8,14 +8,14 @@ namespace Napilnik
 {
     public class Order
     {
-        private readonly CellList _cells;
+        private readonly StoredGoods _goods;
 
-        public Order(CellList cells)
+        public Order(StoredGoods storedGoods)
         {
-            if (cells == null)
-                throw new ArgumentNullException(nameof(cells));
+            if (storedGoods == null)
+                throw new ArgumentNullException(nameof(storedGoods));
 
-            _cells = cells;
+            _goods = storedGoods;
             Paylink = "";
         }
 

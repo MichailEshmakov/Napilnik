@@ -21,7 +21,7 @@ namespace Napilnik
             warehouse.Delive(iPhone11, 1);
 
             // Вывод всех товаров на складе с их остатком.
-            IReadOnlyList<IReadonlyCell> warehouseGoods = warehouse.GetGoods();
+            IReadOnlyDictionary<Good, int> warehouseGoods = warehouse.GetGoods();
             Console.WriteLine("Товары на складе:");
             Output.ShowGoods(warehouseGoods);
 
@@ -29,8 +29,9 @@ namespace Napilnik
             cart.Add(iPhone12, 4);
             //cart.Add(iPhone11, 3); // При такой ситуации возникает ошибка так, как нет нужного количества товара на складе.
 
+            Console.WriteLine();
             // Вывод всех товаров в корзине.
-            IReadOnlyList<IReadonlyCell> cardGoods = cart.GetGoods();
+            IReadOnlyDictionary<Good, int> cardGoods = cart.GetGoods();
             Console.WriteLine("Товары в корзине:");
             Output.ShowGoods(cardGoods);
 
@@ -42,11 +43,11 @@ namespace Napilnik
 
     public static class Output
     {
-        public static void ShowGoods(IReadOnlyList<IReadonlyCell> cells)
+        public static void ShowGoods(IReadOnlyDictionary<Good, int> countByGood)
         {
-            foreach (IReadonlyCell cell in cells)
+            foreach (Good good in countByGood.Keys)
             {
-                Console.WriteLine($"{cell.Good.Name}: {cell.Count}");
+                Console.WriteLine($"{good.Name}: {countByGood[good]}");
             }
         }
     }

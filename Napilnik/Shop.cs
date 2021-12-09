@@ -23,14 +23,14 @@ namespace Napilnik
             return new Cart(this);
         }
 
-        public Cell ReserveGoods(Good good, int count)
+        public KeyValuePair<Good, int> ReserveGoods(Good good, int count)
         {
             return _warehouse.Reserve(good, count);
         }
 
-        internal void ReturnGoods(Cell retugningGoods)
+        internal void Return(Good good, int count)
         {
-            _warehouse.Return(retugningGoods);
+            _warehouse.Return(good, count);
         }
     }
 }

@@ -8,37 +8,36 @@ namespace Napilnik
 {
     public class Warehouse
     {
-        private readonly CellList _cells;
+        private readonly StoredGoods _storedGoods;
 
         public Warehouse()
         {
-            _cells = new CellList();
+            _storedGoods = new StoredGoods();
         }
 
         public void Delive(Good good, int count)
         {
-            Cell newCell = new Cell(good, count);
-            _cells.Add(newCell);
+            _storedGoods.Add(good, count);
         }
 
-        public Cell Reserve(Good good, int count)
+        public KeyValuePair<Good, int> Reserve(Good good, int count)
         {
-            return _cells.Give(good, count);
+            return _storedGoods.Give(good, count);
         }
 
         public bool AreAvailable(Good good, int count)
         {
-            return _cells.Has(good, count);
+            return _storedGoods.Has(good, count);
         }
 
-        public void Return(Cell retugningGoods)
+        public void Return(Good good, int count)
         {
-            _cells.Add(retugningGoods);
+            _storedGoods.Add(good, count);
         }
 
-        public IReadOnlyList<IReadonlyCell> GetGoods()
+        public IReadOnlyDictionary<Good, int> GetGoods()
         {
-            return _cells.GetAll();
+            return _storedGoods.GetAll();
         }
     }
 }

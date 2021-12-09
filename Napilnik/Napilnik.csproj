@@ -44,8 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cart.cs" />
-    <Compile Include="Cell.cs" />
-    <Compile Include="CellList.cs" />
+    <Compile Include="StoredGoods.cs" />
     <Compile Include="Good.cs" />
     <Compile Include="Order.cs" />
     <Compile Include="Program.cs" />

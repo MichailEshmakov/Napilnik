@@ -9,7 +9,7 @@ namespace Napilnik
     public class Cart
     {
         private readonly Shop _shop;
-        private readonly CellList _cells;
+        private readonly StoredGoods _storedGoods;
 
         public Cart(Shop shop)
         {
@@ -17,29 +17,28 @@ namespace Napilnik
                 throw new ArgumentNullException(nameof(shop));
 
             _shop = shop;
-            _cells = new CellList();
+            _storedGoods = new StoredGoods();
         }
 
         public void Add(Good good, int count)
         {
-            Cell newCell = _shop.ReserveGoods(good, count);
-            _cells.Add(newCell);
+            _storedGoods.Add(good, count);
         }
 
         public void Return(Good good, int count)
         {
-            Cell retugningGoods = _cells.Give(good, count);
-            _shop.ReturnGoods(retugningGoods);
+            KeyValuePair<Good, int> retugningGoods = _storedGoods.Give(good, count);
+            _shop.Return(retugningGoods.Key, retugningGoods.Value);
         }
 
         public Order Order()
         {
-            return new Order(_cells);
+            return new Order(_storedGoods);
         }
 
-        public IReadOnlyList<IReadonlyCell> GetGoods()
+        public IReadOnlyDictionary<Good, int> GetGoods()
         {
-             return _cells.GetAll();
+             return _storedGoods.GetAll();
         }
     }
 }

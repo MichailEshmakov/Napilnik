@@ -1,9 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Napilnik
 {
@@ -11,14 +7,18 @@ namespace Napilnik
     {
         static void Main(string[] args)
         {
-            ILogger fileLogger = new FileLogger();
-            ILogger consoleLogger = new ConsoleLogger();
+            LogWritter fileLogger = new FileLogWritter();
+            LogWritter consoleLogger = new ConsoleLogWritter();
+            SecureLogWritter fridayFileLogger = new SecureLogWritter(fileLogger);
+            SecureLogWritter fridayConsoleLogger = new SecureLogWritter(consoleLogger);
+            LogWritter consoleAndFridayFileLogger = new ConsoleLogWritter(fridayFileLogger);
+
 
             Pathfinder filePathfinder = new Pathfinder(fileLogger);
             Pathfinder consolePathfinder = new Pathfinder(consoleLogger);
-            Pathfinder fridayFilePathfinder = new FridayPathfinder(filePathfinder);
-            Pathfinder fridayConsolePathfinder = new FridayPathfinder(consoleLogger);
-            Pathfinder consoleAndFridayFilePathfinder = new Pathfinder(consoleLogger, fridayFilePathfinder);
+            Pathfinder fridayFilePathfinder = new Pathfinder(fridayFileLogger);
+            Pathfinder fridayConsolePathfinder = new Pathfinder(fridayConsoleLogger);
+            Pathfinder consoleAndFridayFilePathfinder = new Pathfinder(consoleAndFridayFileLogger);
 
             string message = "napilnik";
 
@@ -31,60 +31,85 @@ namespace Napilnik
         }
     }
 
-    interface ILogger
+    class Pathfinder
     {
-        void Find(string message);
-    }
+        readonly ILogger _logger;
+        public Pathfinder(ILogger logger)
+        {
+            if (logger == null)
+                throw new ArgumentNullException(nameof(logger));
 
-    class FileLogger : ILogger
-    {
+            _logger = logger;
+        }
+
         public void Find(string message)
         {
-            File.WriteAllText("log.txt", message);
+            _logger.WriteError(message);
         }
     }
 
-    class ConsoleLogger : ILogger
+    interface ILogger
     {
-        public void Find(string message)
+        void WriteError(string message);
+    }
+
+    abstract class LogWritter : ILogger
+    {
+        private readonly ILogger _next;
+
+        public LogWritter(ILogger next = null)
+        {
+            _next = next;
+        }
+
+        public void WriteError(string message)
+        {
+            Log(message);
+            if (_next != null)
+                _next.WriteError(message);
+        }
+
+        protected abstract void Log(string message);
+    }
+
+    class SecureLogWritter : LogWritter
+    {
+        private readonly LogWritter _writter;
+
+        public SecureLogWritter(LogWritter writter, ILogger next = null) : base(next)
+        {
+            if (writter == null)
+                throw new ArgumentNullException(nameof(writter));
+
+            _writter = writter;
+        }
+
+        protected override void Log(string message)
+        {
+            if (DateTime.Now.DayOfWeek == DayOfWeek.Friday)
+            {
+                _writter.WriteError(message);
+            }
+        }
+    }
+
+    class ConsoleLogWritter: LogWritter
+    {
+        public ConsoleLogWritter(ILogger next = null) : base(next) { }
+
+        protected override void Log(string message)
         {
             Console.WriteLine(message);
         }
     }
 
-    class Pathfinder : ILogger
+    class FileLogWritter : LogWritter
     {
-        public Pathfinder(ILogger logger, Pathfinder successor = null)
+        public FileLogWritter(ILogger next = null) : base(next) { }
+
+        protected override void Log(string message)
         {
-            if (logger == null)
-                throw new ArgumentNullException(nameof(logger));
-
-            Logger = logger;
-            Successor = successor;
-        }
-
-        protected ILogger Logger { get; private set; }
-        protected Pathfinder Successor { get; private set; }
-
-        public virtual void Find(string message)
-        {
-            Logger.Find(message);
-            if (Successor != null)
-                Successor.Find(message);
-        }
-    }
-
-    class FridayPathfinder : Pathfinder
-    {
-        public FridayPathfinder(ILogger logger, Pathfinder successor = null) : base(logger, successor) { }
-
-        public override void Find(string message)
-        {
-            if (DateTime.Now.DayOfWeek == DayOfWeek.Friday)
-                Logger.Find(message);
-
-            if (Successor != null)
-                Successor.Find(message);
+            File.WriteAllText("log.txt", message);
         }
     }
 }
